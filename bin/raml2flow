@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+const raml2flow = require('../index');
+
+const specPath = process.argv[2];
+const outputPath = process.argv[3] || 'types';
+
+if (!specPath) {
+    process.stderr.write('input file not specified!\n');
+    process.exit(9);
+}
+
+raml2flow(specPath, outputPath).then((result) => {
+    process.stdout.write(`Success! ${result.length} files was created.\n`);
+    process.exit();
+});
