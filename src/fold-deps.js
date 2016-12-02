@@ -9,7 +9,7 @@ const {
     hasProps,
     hasEnum,
     getType,
-    getArrayComponent,
+    getArrayComponentName,
     getUnionComponents
 } = require('./helpers/getters');
 
@@ -42,8 +42,8 @@ const processDependency = (type, types) => {
     }
 
     if (isArray) {
-        const component = getArrayComponent(type);
-        return component && prepare([component.name()]);
+        const componentName = getArrayComponentName(type);
+        return componentName && prepare([componentName]);
     }
 
     return prepare([getType(type)]);

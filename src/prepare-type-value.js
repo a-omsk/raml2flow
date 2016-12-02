@@ -2,7 +2,7 @@ const flow = require('lodash.flow');
 const isNAN = require('lodash.isnan');
 
 const { prepareTypeName } = require('./prepare-type-name');
-const { getType, hasEnum, getArrayComponent } = require('./helpers/getters');
+const { getType, hasEnum, getArrayComponentName } = require('./helpers/getters');
 const { flowPrimitives } = require('./constants');
 
 const convertTypeNames = (value) => {
@@ -64,10 +64,13 @@ const parseEnumType = (type) => {
 };
 
 const parseArrayType = (type) => {
-    const component = getArrayComponent(type);
-    const preparedType = component ? parseTypeValue(component.name()) : '*';
+    const componentName = getArrayComponentName(type);
 
-    return `Array<${preparedType}>`;
+    if (componentName) {
+        return `Array<${parseTypeValue(componentName)}>`;
+    }
+
+    return 'Array<*>';
 };
 
 const prepareTypeValue = (type) => {

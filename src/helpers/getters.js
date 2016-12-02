@@ -1,6 +1,21 @@
 const checkField = field => type => !!(type[field] && type[field]().length);
+
 const getType = prop => prop.type()[0];
-const getArrayComponent = type => type.kind() === 'ArrayTypeDeclaration' && type.findComponentTypeDeclaration();
+
+const getArrayComponentName = type => {
+    if (type.kind() !== 'ArrayTypeDeclaration') {
+        return null;
+    }
+
+    try {
+        const declaration = type.findComponentTypeDeclaration();
+        const runtimeDefinition = type.runtimeType().component.getNameAtRuntime();
+
+        return declaration ? declaration.name() : runtimeDefinition;
+    } catch(e) {
+        return null;
+    }
+}
 
 const getUnionComponents = (type) => {
     const runtimeDef = type.runtimeDefinition();
@@ -21,6 +36,6 @@ module.exports = {
     hasProps,
     hasEnum,
     getType,
-    getArrayComponent,
+    getArrayComponentName,
     getUnionComponents
 };
