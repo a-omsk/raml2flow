@@ -1,5 +1,5 @@
 const prepareTypeName = (name) => {
-    return name.replace(/Object/, '');
+    return new String(name).replace(/Object/, '');
 };
 
 const prepareImportsName = (name) => {
